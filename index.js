@@ -39,5 +39,5 @@ setInterval(getTemp, 60000);
 http.createServer(function (req, res) {
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.end('<h1>' + temps.c + '&deg; C / ' + temps.f + '&deg; F<h1>');
-}).listen(8080, '127.0.0.1');
-console.log('Server running at http://127.0.0.1:1337/');
+}).listen(8080, '0.0.0.0');
+console.log('Server running');
