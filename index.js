@@ -21,9 +21,10 @@ function getTemp() {
         logTemp(statsBucketC, tempC.toFixed(1));
         logTemp(statsBucketF, tempF.toFixed(1));
         temps.c = tempC;
-        temps.f = te
-})
+        temps.f = tempF;
+    })
 }
+
 function logTemp(bucket, temp) {
     var data = {};
     data[bucket] = temp;
