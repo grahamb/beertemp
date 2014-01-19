@@ -13,11 +13,11 @@ fs.writeFileSync(__dirname + '/pidfile', process.pid, { flags: 'w' });
 function getTemp() {
     var date = Date.now();
     ds18b20.temperature(sensor, function(err, tempC) {
-        tempF = tempC * 1.8000 + 32.00;
-        var str = [date, tempC, tempF].join(',') + '\n';
+        var tempF = tempC * 1.8000 + 32;
+        var str = [date, tempC.toFixed(1), tempF.toFixed(1)].join(',') + '\n';
         stream.write(str);
-        logTemp(statsBucketC, tempC);
-        logTemp(statsBucketF, tempF);
+        logTemp(statsBucketC, tempC.toFixed(1));
+        logTemp(statsBucketF, tempF.toFixed(1));
     });
 }
 
