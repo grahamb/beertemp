@@ -4,7 +4,7 @@ var ds18b20 = require('ds18b20'),
     logfile = __dirname + '/log.csv',
     sensor = ('28-000003df0a41'),
     stream = fs.createWriteStream(logfile, { flags: 'a', encoding: 'utf-8', mode: 0666 }),
-    graphiteClient = graphite.createClient('plaintext://stats.its.sfu.ca:2003/'),
+    graphiteClient = graphite.createClient('plaintext://stats.its.sfu.ca:2003'),
     statsBucketC = 'stats.gb.beertemp.c';
     statsBucketF = 'stats.gb.beertemp.f';
 
