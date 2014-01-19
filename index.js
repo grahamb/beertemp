@@ -22,7 +22,9 @@ function getTemp() {
 }
 
 function logTemp(bucket, temp) {
-    graphiteClient.write({ bucket: temp }, function(err) {
+    var data = {};
+    data[bucket] = temp;
+    graphiteClient.write(data, function(err) {
         if (err) console.log(err);
     });
 }
