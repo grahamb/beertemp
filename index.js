@@ -1,12 +1,14 @@
 var ds18b20 = require('ds18b20'),
     graphite = require('graphite'),
     fs = require('fs'),
+    http = require('http'),
     logfile = __dirname + '/log.csv',
     sensor = ('28-000003df0a41'),
     stream = fs.createWriteStream(logfile, { flags: 'a', encoding: 'utf-8', mode: 0666 }),
     graphiteClient = graphite.createClient('plaintext://stats.its.sfu.ca:2003'),
-    statsBucketC = 'stats.gb.beertemp.c';
-    statsBucketF = 'stats.gb.beertemp.f';
+    statsBucketC = 'stats.gb.beertemp.c',
+    statsBucketF = 'stats.gb.beertemp.f',
+    temps = { c: 0, f: 0 };
 
 fs.writeFileSync(__dirname + '/pidfile', process.pid, { flags: 'w' });
 
@@ -18,9 +20,10 @@ function getTemp() {
         stream.write(str);
         logTemp(statsBucketC, tempC.toFixed(1));
         logTemp(statsBucketF, tempF.toFixed(1));
-    });
+        temps.c = tempC;
+        temps.f = te
+})
 }
-
 function logTemp(bucket, temp) {
     var data = {};
     data[bucket] = temp;
@@ -31,3 +34,9 @@ function logTemp(bucket, temp) {
 
 getTemp();
 setInterval(getTemp, 60000);
+
+http.createServer(function (req, res) {
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.end('<h1>' + temps.c + '&deg; C / ' + temps.f + '&deg; F<h1>');
+}).listen(8080, '127.0.0.1');
+console.log('Server running at http://127.0.0.1:1337/');
