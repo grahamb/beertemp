@@ -24,7 +24,7 @@ function getTemp() {
 
 function logTemp(bucket, temp) {
     graphiteClient.write({ bucket: temp }, function(err) {
-        console.log(err);
+        if (err) console.log(err);
     });
 }
 
