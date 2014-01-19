@@ -38,6 +38,6 @@ setInterval(getTemp, 60000);
 
 http.createServer(function (req, res) {
     res.writeHead(200, {'Content-Type': 'text/html'});
-    res.end('<h1>' + temps.c + '&deg; C / ' + temps.f + '&deg; F<h1>');
+    res.end('<h1>' + temps.c + '&deg; C / ' + temps.f + '&deg; F<h1><img src="http://stats.its.sfu.ca/render/?width=586&height=308&_salt=1390110940.063&target=stats.gb.beertemp.c&target=stats.gb.beertemp.f&from=-12hours&graphOnly=false&hideAxes=false&hideYAxis=false&hideGrid=false&hideLegend=true" />');
 }).listen(8080, '0.0.0.0');
 console.log('Server running');
