@@ -28,4 +28,4 @@ function logTemp(bucket, temp) {
 }
 
 getTemp();
-setInterval(getTemp, 300000);
+setInterval(getTemp, 60000);
