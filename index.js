@@ -15,14 +15,25 @@ fs.writeFileSync(__dirname + '/pidfile', process.pid, { flags: 'w' });
 function getTemp() {
     var date = Date.now();
     ds18b20.temperature(sensor, function(err, tempC) {
-        var tempF = tempC * 1.8000 + 32;
-        var str = [date, tempC.toFixed(1), tempF.toFixed(1)].join(',') + '\n';
-        stream.write(str);
-        logTemp(statsBucketC, tempC.toFixed(1));
-        logTemp(statsBucketF, tempF.toFixed(1));
-        temps.c = tempC;
-        temps.f = tempF;
-    })
+        if (err) {
+            console.log(err);
+        } else {
+            try {
+                var tempF = tempC * 1.8000 + 32;
+                var str = [date, tempC.toFixed(1), tempF.toFixed(1)].join(',') + '\n';
+                stream.write(str);
+                logTemp(statsBucketC, tempC.toFixed(1));
+                logTemp(statsBucketF, tempF.toFixed(1));
+                temps.c = tempC;
+                temps.f = tempF;
+            } catch (err) {
+                console.log(err);
+            }
+
+        }
+
+    });
+    setTimeout(getTemp, 60000);
 }
 
 function logTemp(bucket, temp) {
@@ -34,7 +45,6 @@ function logTemp(bucket, temp) {
 }
 
 getTemp();
-setInterval(getTemp, 60000);
 
 http.createServer(function (req, res) {
     res.writeHead(200, {'Content-Type': 'text/html'});
