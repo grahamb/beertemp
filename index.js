@@ -10,8 +10,6 @@ var ds18b20 = require('ds18b20'),
     statsBucketF = 'stats.gb.beertemp.f',
     temps = { c: 0, f: 0 };
 
-fs.writeFileSync(__dirname + '/pidfile', process.pid, { flags: 'w' });
-
 function getTemp() {
     var date = Date.now();
     ds18b20.temperature(sensor, function(err, tempC) {
